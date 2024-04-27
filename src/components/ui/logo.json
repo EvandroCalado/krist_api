@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_ui_logos",
+  "info": {
+    "displayName": "logo",
+    "icon": "command"
+  },
+  "options": {},
+  "attributes": {
+    "black": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "white": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "isBlack": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    }
+  }
+}

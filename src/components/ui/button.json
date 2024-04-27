@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_ui_buttons",
+  "info": {
+    "displayName": "button",
+    "icon": "alien",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "width": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

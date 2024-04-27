@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  strapi_blog:
+    container_name: krist
+    hostname: krist
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: krist
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.krist:/var/lib/postgresql/data/pgdata

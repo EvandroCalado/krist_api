@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_menu_nav_links",
+  "info": {
+    "displayName": "navLink",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "link": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
