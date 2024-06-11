@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_footer_footer_menus",
+  "info": {
+    "displayName": "footerMenu",
+    "icon": "collapse",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "menu.nav-link",
+      "required": true
+    }
+  }
+}

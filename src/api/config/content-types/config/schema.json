@@ -23,6 +23,19 @@
       "repeatable": true,
       "component": "hero.banner",
       "required": true
+    },
+    "footer": {
+      "displayName": "footer",
+      "type": "component",
+      "repeatable": false,
+      "component": "footer.footer",
+      "required": true
+    },
+    "footerMenu": {
+      "type": "component",
+      "repeatable": true,
+      "component": "footer.footer-menu",
+      "required": true
     }
   }
 }

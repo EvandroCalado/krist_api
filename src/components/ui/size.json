@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_ui_sizes",
+  "info": {
+    "displayName": "size",
+    "icon": "cloud",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "string",
+      "required": true
+    },
+    "quantity": {
+      "type": "integer",
+      "required": false
+    }
+  }
+}

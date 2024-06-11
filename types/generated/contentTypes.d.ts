@@ -742,7 +742,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -771,6 +770,28 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    addresses: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::address.address'
+    >;
+    orders: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::order.order'
+    >;
+    avatar: Attribute.Media;
+    phone: Attribute.String;
+    ratings: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::rating.rating'
+    >;
+    wishlists: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::wishlist.wishlist'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -781,6 +802,47 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiAddressAddress extends Schema.CollectionType {
+  collectionName: 'addresses';
+  info: {
+    singularName: 'address';
+    pluralName: 'addresses';
+    displayName: 'address';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    address: Attribute.Text & Attribute.Required;
+    zipCode: Attribute.BigInteger & Attribute.Required;
+    user: Attribute.Relation<
+      'api::address.address',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    city: Attribute.String & Attribute.Required;
+    state: Attribute.String & Attribute.Required;
+    country: Attribute.String & Attribute.DefaultTo<'BR'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::address.address',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::address.address',
       'oneToOne',
       'admin::user'
     > &
@@ -870,11 +932,6 @@ export interface ApiColorColor extends Schema.CollectionType {
     name: Attribute.String & Attribute.Required;
     color: Attribute.String &
       Attribute.CustomField<'plugin::color-picker.color'>;
-    products: Attribute.Relation<
-      'api::color.color',
-      'manyToMany',
-      'api::product.product'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -907,6 +964,9 @@ export interface ApiConfigConfig extends Schema.SingleType {
   attributes: {
     logo: Attribute.Component<'ui.logo'> & Attribute.Required;
     hero: Attribute.Component<'hero.banner', true> & Attribute.Required;
+    footer: Attribute.Component<'footer.footer'> & Attribute.Required;
+    footerMenu: Attribute.Component<'footer.footer-menu', true> &
+      Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -964,6 +1024,43 @@ export interface ApiFlashSaleFlashSale extends Schema.CollectionType {
   };
 }
 
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::order.order',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    products: Attribute.JSON & Attribute.Required;
+    amount: Attribute.BigInteger & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Schema.CollectionType {
   collectionName: 'products';
   info: {
@@ -983,8 +1080,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
         maxLength: 50;
       }>;
     description: Attribute.Text & Attribute.Required;
-    inStock: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
-    price: Attribute.Decimal & Attribute.Required;
     discountPercentage: Attribute.Integer;
     cover: Attribute.Media & Attribute.Required;
     brand: Attribute.Relation<
@@ -997,20 +1092,20 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
-    sizes: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::size.size'
-    >;
-    colors: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::color.color'
-    >;
-    images: Attribute.Component<'ui.image', true> & Attribute.Required;
     isFeatured: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<false>;
+    variants: Attribute.Component<'ui.variant', true> & Attribute.Required;
+    ratings: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::rating.rating'
+    >;
+    wishlists: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::wishlist.wishlist'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1022,6 +1117,51 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRatingRating extends Schema.CollectionType {
+  collectionName: 'ratings';
+  info: {
+    singularName: 'rating';
+    pluralName: 'ratings';
+    displayName: 'rating';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::rating.rating',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    product: Attribute.Relation<
+      'api::rating.rating',
+      'manyToOne',
+      'api::product.product'
+    >;
+    rating: Attribute.Enumeration<
+      ['one1', 'two2', 'three3', 'four4', 'five5']
+    > &
+      Attribute.Required;
+    description: Attribute.Text & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::rating.rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::rating.rating',
       'oneToOne',
       'admin::user'
     > &
@@ -1041,17 +1181,51 @@ export interface ApiSizeSize extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String & Attribute.Required;
-    products: Attribute.Relation<
-      'api::size.size',
-      'manyToMany',
-      'api::product.product'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWishlistWishlist extends Schema.CollectionType {
+  collectionName: 'wishlists';
+  info: {
+    singularName: 'wishlist';
+    pluralName: 'wishlists';
+    displayName: 'wishlist';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    product: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'manyToOne',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::wishlist.wishlist',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -1074,13 +1248,17 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::address.address': ApiAddressAddress;
       'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
       'api::config.config': ApiConfigConfig;
       'api::flash-sale.flash-sale': ApiFlashSaleFlashSale;
+      'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
+      'api::rating.rating': ApiRatingRating;
       'api::size.size': ApiSizeSize;
+      'api::wishlist.wishlist': ApiWishlistWishlist;
     }
   }
 }

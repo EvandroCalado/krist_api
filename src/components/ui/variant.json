@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_ui_variants",
+  "info": {
+    "displayName": "variant",
+    "icon": "cog",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "discountPercentage": {
+      "type": "integer",
+      "required": false
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "color": {
+      "type": "customField",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "required": true,
+      "customField": "plugin::color-picker.color"
+    },
+    "sizes": {
+      "type": "component",
+      "repeatable": true,
+      "component": "ui.size",
+      "required": true
+    }
+  }
+}

@@ -25,15 +25,6 @@
       "type": "text",
       "required": true
     },
-    "inStock": {
-      "type": "boolean",
-      "default": true,
-      "required": true
-    },
-    "price": {
-      "type": "decimal",
-      "required": true
-    },
     "discountPercentage": {
       "type": "integer",
       "required": false
@@ -57,28 +48,28 @@
       "target": "api::category.category",
       "mappedBy": "products"
     },
-    "sizes": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::size.size",
-      "mappedBy": "products"
-    },
-    "colors": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::color.color",
-      "mappedBy": "products"
-    },
-    "images": {
-      "type": "component",
-      "repeatable": true,
-      "component": "ui.image",
-      "required": true
-    },
     "isFeatured": {
       "type": "boolean",
       "default": false,
       "required": true
+    },
+    "variants": {
+      "type": "component",
+      "repeatable": true,
+      "component": "ui.variant",
+      "required": true
+    },
+    "ratings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rating.rating",
+      "mappedBy": "product"
+    },
+    "wishlists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::wishlist.wishlist",
+      "mappedBy": "product"
     }
   }
 }

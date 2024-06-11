@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_ui_details",
+  "info": {
+    "displayName": "detail",
+    "icon": "cube",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "stock": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}
